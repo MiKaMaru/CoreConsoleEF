@@ -12,24 +12,8 @@ namespace CoreConsoleEF
         public static void Main(string[] args)
         {
 
-            var builder = new ConfigurationBuilder();
-            // установка пути к текущему каталогу
-            builder.SetBasePath(Directory.GetCurrentDirectory());
-            // получаем конфигурацию из файла appsettings.json
-            builder.AddJsonFile(@"C:\Users\Karachev.MA\source\repos\CoreConsoleEF\CoreConsoleEF\appsettings.json");
-            // создаем конфигурацию
-            var config = builder.Build();
-            // получаем строку подключения
-            string connectionString = config.GetConnectionString("DefaultConnection");
-
-            var optionsBuilder = new DbContextOptionsBuilder<AppContext>();
-            var options = optionsBuilder
-                .UseSqlServer(connectionString)
-                .Options;
-
-
             // Добавление
-            using (AppContext db = new AppContext(options))
+            using (AppContext db = new AppContext())
             {
                 User user1 = new User { Name = "Tom", Age = 33 };
                 User user2 = new User { Name = "Alice", Age = 26 };
@@ -47,7 +31,7 @@ namespace CoreConsoleEF
             }
 
             // получение/Чтение
-            using (AppContext db = new AppContext(options))
+            using (AppContext db = new AppContext())
             {
                 // получаем объекты из бд и выводим на консоль
                 var users = db.Users.ToList();
@@ -59,7 +43,7 @@ namespace CoreConsoleEF
             }
 
             // Редактирование
-            using (AppContext db = new AppContext(options))
+            using (AppContext db = new AppContext())
             {
                 // получаем первый объект
                 User user = db.Users.FirstOrDefault();
@@ -82,7 +66,7 @@ namespace CoreConsoleEF
             }
 
             // Удаление
-            using (AppContext db = new AppContext(options))
+            using (AppContext db = new AppContext())
             {
                 // получаем первый объект
                 User user = db.Users.FirstOrDefault();
